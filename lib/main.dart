@@ -1,8 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'core/providers/app_provider.dart';
+import 'core/routes/app_routes.dart';
+import 'core/services/app_service.dart';
+import 'features/home/pages/home_page.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AppProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -12,45 +25,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'ID Photo Maker',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         useMaterial3: true,
       ),
-      home: const HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('证件照制作'),
-        elevation: 0,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                // TODO: 实现相机拍摄
-              },
-              child: const Text('拍摄照片'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // TODO: 实现相册选择
-              },
-              child: const Text('从相册选择'),
-            ),
-          ],
-        ),
-      ),
+      navigatorKey: AppService().navigatorKey,
+      scaffoldMessengerKey: AppService().scaffoldKey,
+      // 移除 home 属性，在 routes 中定义初始路由
+      initialRoute: '/',  // 添加这行
+      routes: {
+        '/': (context) => const HomePage(),
+        ...AppRoutes.getRoutes(),
+      },
     );
   }
 }
