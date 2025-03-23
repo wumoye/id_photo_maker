@@ -45,7 +45,11 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>需要访问相册以选择照片</string>
 	<key>NSCameraUsageDescription</key>
-	<string>需要使用相机来拍摄证件照</string>
+	<string>需要使用相机拍摄照片</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>需要访问照片库以保存证件照</string>
 </dict>
 </plist>

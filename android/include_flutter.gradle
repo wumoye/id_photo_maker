@@ -1,0 +1,12 @@
+// 引入 Flutter 项目
+def flutterProjectRoot = rootProject.projectDir.parentFile
+def localProperties = new Properties()
+def localPropertiesFile = new File(flutterProjectRoot, "local.properties")
+localProperties.load(new FileInputStream(localPropertiesFile))
+def flutterSdkPath = localProperties.getProperty('flutter.sdk')
+
+setBinding(new Binding([gradle: this]))
+evaluate(new File(
+    flutterSdkPath,
+    'packages/flutter_tools/gradle/flutter.gradle'
+))

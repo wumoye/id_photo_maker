@@ -5,17 +5,8 @@ import 'core/routes/app_routes.dart';
 import 'core/services/app_service.dart';
 import 'features/home/pages/home_page.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => AppProvider()),
-      ],
-      child: const MyApp(),
-    ),
-  );
+void main() {
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -23,21 +14,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'ID Photo Maker',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        useMaterial3: true,
+    return ChangeNotifierProvider(
+      create: (_) => AppProvider(),
+      child: MaterialApp(
+        title: '证件照制作',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          useMaterial3: false,
+          iconTheme: const IconThemeData(color: Colors.white),
+        ),
+
+        navigatorKey: AppService().navigatorKey,
+        scaffoldMessengerKey: AppService().scaffoldKey,
+        initialRoute: '/',
+        routes: {'/': (context) => const HomePage(), ...AppRoutes.getRoutes()},
       ),
-      navigatorKey: AppService().navigatorKey,
-      scaffoldMessengerKey: AppService().scaffoldKey,
-      // 移除 home 属性，在 routes 中定义初始路由
-      initialRoute: '/',  // 添加这行
-      routes: {
-        '/': (context) => const HomePage(),
-        ...AppRoutes.getRoutes(),
-      },
     );
   }
 }
